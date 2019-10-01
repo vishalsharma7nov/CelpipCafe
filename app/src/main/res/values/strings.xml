@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">Celpip Cafe</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Celpip Cafe</string>
+    <string name="nav_header_subtitle"></string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    //button text name---
+    <string name="button_register">Register</string>
+    <string name="button_login">Login</string>
+
+    // navigation activities
+    ---activities----
+    <string name="title_activity_over_view">Overview Control Panel</string>
+    <string name="title_activity_celpip_cafe__logged_in__user_dashboard_">User Dashboard</string>
+    <string name="title_activity_dashboard__profile">Profile</string>
+
+    // main activity
+    ---navigation menu name's---
+    <string name="main_home">Home</string>
+    <string name="main_about_celpip_exam">About CELPIP Exam</string>
+    <string name="main_free_celpip_sample_tests">Free Celpip Sample Tests</string>
+    <string name="main_celpip_coaching_and_exam_centres">CELPIP Coaching And Exam Centres</string>
+    <string name="main_login">Login</string>
+    <string name="main_registration">Registration</string>
+
+    // user dashboard activity
+    ---navigation dashboard menu name----
+    <string name="dashboard_overview">Overview</string>
+    <string name="dashboard_profile">Profile</string>
+    <string name="dashboard_board_preferences">Board Preferences</string>
+    <string name="dashboard_private_messages">Private Messages</string>
+    <string name="dashboard_user_groups">User Groups</string>
+    <string name="dashboard_friends_and_foes">Friend And Foes</string>
+
+    // dashboard overview Activity
+    ---navigation dashboard overview menus name---
+    <string name="overview_FrontPage">Front Page</string>
+    <string name="overview_Manage_Subscription">Manage Subscription</string>
+    <string name="overview_Manage_Bookmarks">Manage Bookmarks</string>
+    <string name="overview_Manage_Drafts">Manage Drafts</string>
+    <string name="overview_Manage_Attachments">Manage Attachments</string>
+    <string name="overview_Manage_Notifications">Manage Notifications</string>
+
+
+    // dashboard profile activity
+    ---navigation dashboard profile menu name----
+    <string name="profile_edit_signature">Edit Signature</string>
+    <string name="profile_edit_avatar">Edit Avatar</string>
+    <string name="profile_edit_account_settings">Edit Account Settings</string>
+    <string name="profile_manage_login_keys">Manage “Remember Me” login keys</string>
+
+
+</resources>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.allumez.celpipcafe">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Design.Light.NoActionBar"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".UserDashBoard.Dashboard_ProfileActivity"
+            android:label="@string/title_activity_dashboard__profile"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".UserDashBoard.UserDashboardActivity"
+            android:label="@string/title_activity_celpip_cafe__logged_in__user_dashboard_"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activities.CelpipCafe_SubForumName_Activity" />
+        <activity android:name=".Activities.CelpipCafe_ForumParentName_Activity" />
+        <activity android:name=".LoginAndRegistration.CelpipCafe_RegistrationActivity" />
+        <activity android:name=".LoginAndRegistration.CelpipCafe_LoginActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
