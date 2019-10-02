@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.allumez.celpipcafe.Activities.CelpipCafe_SubForumName_Activity;
-import com.allumez.celpipcafe.GetterAndSetter.CelpipCafe_ForumParentName_GetterAndSetter_Class;
+import com.allumez.celpipcafe.GetterAndSetter.ForumParentName;
 import com.allumez.celpipcafe.R;
 
 import java.util.List;
@@ -18,9 +18,9 @@ import java.util.List;
 public class CelpipCafe_ForumParentName_Adapter extends BaseAdapter{
 
     Context c;
-    List<CelpipCafe_ForumParentName_GetterAndSetter_Class> list;
+    List<ForumParentName> list;
 
-    public CelpipCafe_ForumParentName_Adapter(Context c, List<CelpipCafe_ForumParentName_GetterAndSetter_Class> list)
+    public CelpipCafe_ForumParentName_Adapter(Context c, List<ForumParentName> list)
     {
         this.c=c;
         this.list=list;

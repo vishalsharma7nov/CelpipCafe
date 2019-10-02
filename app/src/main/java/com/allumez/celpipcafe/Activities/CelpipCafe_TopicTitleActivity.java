@@ -6,12 +6,13 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.allumez.celpipcafe.Adapter.CelpipCafe_SubForumName_Adapter;
-import com.allumez.celpipcafe.GetterAndSetter.ForumParentName;
+import com.allumez.celpipcafe.Adapter.CelpipCafe_ForumParentName_Adapter;
+import com.allumez.celpipcafe.Adapter.CelpipCafe_ForumTopicTitle_Adapter;
+import com.allumez.celpipcafe.GetterAndSetter.ForumTopicTitles;
 import com.allumez.celpipcafe.JsonData.JsonData_Forum;
+import com.allumez.celpipcafe.JsonData.JsonData_TopicTitleForum;
 import com.allumez.celpipcafe.R;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -24,23 +25,20 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-public class CelpipCafe_SubForumName_Activity extends AppCompatActivity {
+public class CelpipCafe_TopicTitleActivity extends AppCompatActivity {
 
-    protected String API;
-    protected ListView listViewSubForumName;
-    protected List<ForumParentName> celpipCafeForumParentNameGetterAndSetterClassList;
-    protected String forum_id,forum_name;
-    protected TextView textViewParentForumName;
+    private String API;
+    private List<ForumTopicTitles> celpipCafeForumTopicTitles;
+    private ListView listViewForumTopicTitles;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_celpip_cafe__sub_forum_name_);
-        listViewSubForumName = findViewById(R.id.listViewSubForumName);
-        textViewParentForumName = findViewById(R.id.textViewParentForumName);
+        setContentView(R.layout.activity_celpip_cafe__questions);
+        listViewForumTopicTitles = findViewById(R.id.listViewForumTopicTitles);
         Intent intent = getIntent();
-        forum_id = intent.getStringExtra("forum_id");
-        forum_name = intent.getStringExtra("forum_name");
-        API =  "http://www.celpipcafe.com/api/subForums.php?p="+forum_id;
+        String forum_id = intent.getStringExtra("forum_id");
+        API = "http://celpipcafe.com/api/questions.php?f="+forum_id;
         sendRequest();
     }
     private void sendRequest() {
@@ -61,8 +59,7 @@ public class CelpipCafe_SubForumName_Activity extends AppCompatActivity {
                             {
                                 loading.dismiss();
                                 showJSON(response);
-                                textViewParentForumName.setText(forum_name);
-                                Toast.makeText(getApplicationContext(), "Welcome To "+forum_name+"!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Welcome To Forum!", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -81,11 +78,10 @@ public class CelpipCafe_SubForumName_Activity extends AppCompatActivity {
     }
 
     private void showJSON(String json) {
-        JsonData_Forum jsonData_forum = new JsonData_Forum(json);
-        celpipCafeForumParentNameGetterAndSetterClassList = jsonData_forum.parseJSON();
-        CelpipCafe_SubForumName_Adapter ca = new CelpipCafe_SubForumName_Adapter(this, celpipCafeForumParentNameGetterAndSetterClassList);
-        listViewSubForumName.setAdapter(ca);
+        JsonData_TopicTitleForum jsonData_topicTitleForum = new JsonData_TopicTitleForum(json);
+        celpipCafeForumTopicTitles = jsonData_topicTitleForum.parseJSON();
+        CelpipCafe_ForumTopicTitle_Adapter ca = new CelpipCafe_ForumTopicTitle_Adapter(this, celpipCafeForumTopicTitles);
+        listViewForumTopicTitles.setAdapter(ca);
         ca.notifyDataSetChanged();
     }
 }
-

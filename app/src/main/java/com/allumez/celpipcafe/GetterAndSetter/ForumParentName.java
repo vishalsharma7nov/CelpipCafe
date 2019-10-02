@@ -1,12 +1,12 @@
 package com.allumez.celpipcafe.GetterAndSetter;
 
-public class CelpipCafe_ForumParentName_GetterAndSetter_Class {
+public class ForumParentName {
 
     String forum_name;
     String forum_id;
     String parent_id;
 
-    public CelpipCafe_ForumParentName_GetterAndSetter_Class(String forum_name, String forum_id, String parent_id) {
+    public ForumParentName(String forum_name, String forum_id, String parent_id) {
         this.forum_name = forum_name;
         this.forum_id = forum_id;
         this.parent_id = parent_id;

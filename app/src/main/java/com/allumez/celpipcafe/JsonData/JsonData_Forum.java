@@ -3,7 +3,7 @@ package com.allumez.celpipcafe.JsonData;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.allumez.celpipcafe.GetterAndSetter.CelpipCafe_ForumParentName_GetterAndSetter_Class;
+import com.allumez.celpipcafe.GetterAndSetter.ForumParentName;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,8 +28,8 @@ public class JsonData_Forum{
     public JsonData_Forum(String json) {
         this.json = json;
     }
-    public List<CelpipCafe_ForumParentName_GetterAndSetter_Class> parseJSON() {
-        List<CelpipCafe_ForumParentName_GetterAndSetter_Class> celpipCafeForumParentNameGetterAndSetterClassList = new ArrayList<>();
+    public List<ForumParentName> parseJSON() {
+        List<ForumParentName> celpipCafeForumParentNameGetterAndSetterClassList = new ArrayList<>();
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(json);
@@ -40,7 +40,7 @@ public class JsonData_Forum{
             parent_id       = new String[users.length()];
             for (int i = 0; i < users.length(); i++) {
                JSONObject jo = users.getJSONObject(i);
-               CelpipCafe_ForumParentName_GetterAndSetter_Class celpipCafeForumParentNameGetterAndSetterClass = new CelpipCafe_ForumParentName_GetterAndSetter_Class(jo.getString(KEY_forum_name), jo.getString(KEY_forum_id),jo.getString(KEY_parent_id));
+               ForumParentName celpipCafeForumParentNameGetterAndSetterClass = new ForumParentName(jo.getString(KEY_forum_name), jo.getString(KEY_forum_id),jo.getString(KEY_parent_id));
                celpipCafeForumParentNameGetterAndSetterClassList.add(celpipCafeForumParentNameGetterAndSetterClass);
                forum_name  [i]            = jo.getString(KEY_forum_name);
                forum_id    [i]        = jo.getString(KEY_forum_id);

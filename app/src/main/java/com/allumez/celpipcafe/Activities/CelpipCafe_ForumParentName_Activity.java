@@ -4,12 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.widget.Adapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.allumez.celpipcafe.Adapter.CelpipCafe_ForumParentName_Adapter;
-import com.allumez.celpipcafe.GetterAndSetter.CelpipCafe_ForumParentName_GetterAndSetter_Class;
+import com.allumez.celpipcafe.GetterAndSetter.ForumParentName;
 import com.allumez.celpipcafe.JsonData.JsonData_Forum;
 import com.allumez.celpipcafe.R;
 import com.android.volley.RequestQueue;
@@ -26,7 +25,7 @@ import java.util.List;
 public class CelpipCafe_ForumParentName_Activity extends AppCompatActivity {
 
     String API = "http://www.celpipcafe.com/api/forums.php";
-    List<CelpipCafe_ForumParentName_GetterAndSetter_Class> celpipCafeForumParentName;
+    List<ForumParentName> celpipCafeForumParentName;
     ListView listViewForumParentName;
 
     @Override

@@ -60,8 +60,9 @@ public class CelpipCafe_LoginActivity extends AppCompatActivity {
                             if (abc == 1)
                             {
                                 loading.dismiss();
-                                Toast.makeText(CelpipCafe_LoginActivity.this, "Login Successful"+response, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(CelpipCafe_LoginActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(), UserDashboardActivity.class);
+                                intent.putExtra("username",Username);
                                 startActivity(intent);
                             }
                             else

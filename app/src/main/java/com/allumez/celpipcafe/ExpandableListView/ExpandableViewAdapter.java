@@ -8,8 +8,11 @@ import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.allumez.celpipcafe.R;
 
@@ -50,9 +53,11 @@ public class ExpandableViewAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.list_item, null);
         }
 
-        TextView txtListChild = (TextView) convertView
+        TextView txtListChild = convertView
                 .findViewById(R.id.lblListItem);
-
+        Animation slide_up = AnimationUtils.loadAnimation(_context.getApplicationContext(),
+                R.anim.slide_up);
+        txtListChild.startAnimation(slide_up);
         txtListChild.setText(childText);
         return convertView;
     }
@@ -87,10 +92,12 @@ public class ExpandableViewAdapter extends BaseExpandableListAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.list_group, null);
         }
-
-        TextView lblListHeader = (TextView) convertView
+        Animation slide_down = AnimationUtils.loadAnimation(_context.getApplicationContext(),
+                R.anim.nav_default_enter_anim);
+        TextView lblListHeader =  convertView
                 .findViewById(R.id.lblListHeader);
         lblListHeader.setTypeface(null, Typeface.BOLD);
+        lblListHeader.startAnimation(slide_down);
         lblListHeader.setText(headerTitle);
 
         return convertView;

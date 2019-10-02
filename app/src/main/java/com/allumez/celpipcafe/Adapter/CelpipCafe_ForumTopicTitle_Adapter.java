@@ -8,19 +8,20 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.allumez.celpipcafe.Activities.CelpipCafe_TopicTitleActivity;
+import com.allumez.celpipcafe.Activities.CelpipCafe_SubForumName_Activity;
 import com.allumez.celpipcafe.GetterAndSetter.ForumParentName;
+import com.allumez.celpipcafe.GetterAndSetter.ForumTopicTitles;
 import com.allumez.celpipcafe.R;
 
 import java.util.List;
 
 
-public class CelpipCafe_SubForumName_Adapter extends BaseAdapter{
+public class CelpipCafe_ForumTopicTitle_Adapter extends BaseAdapter{
 
     Context c;
-    List<ForumParentName> list;
+    List<ForumTopicTitles> list;
 
-    public CelpipCafe_SubForumName_Adapter(Context c, List<ForumParentName> list)
+    public CelpipCafe_ForumTopicTitle_Adapter(Context c, List<ForumTopicTitles> list)
     {
         this.c=c;
         this.list=list;
@@ -46,15 +47,7 @@ public class CelpipCafe_SubForumName_Adapter extends BaseAdapter{
         LayoutInflater in=(LayoutInflater)c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView=in.inflate(R.layout.celpipcafe_forumparentname,null);
         TextView t1= convertView.findViewById(R.id.textViewName);
-        t1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(c.getApplicationContext(), CelpipCafe_TopicTitleActivity.class);
-                intent.putExtra("forum_id",list.get(position).getForum_id());
-                c.startActivity(intent);
-            }
-        });
-        t1.setText(list.get(position).getForum_name());
+        t1.setText(list.get(position).getTopic_title());
         return convertView;
     }
 }

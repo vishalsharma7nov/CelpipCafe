@@ -1,21 +1,36 @@
 package com.allumez.celpipcafe.UserDashBoard;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.allumez.celpipcafe.Adapter.CelpipCafe_ForumParentName_Adapter;
 import com.allumez.celpipcafe.ExpandableListView.ExpandableViewAdapter;
+import com.allumez.celpipcafe.GetterAndSetter.ForumParentName;
+import com.allumez.celpipcafe.JsonData.JsonData_Forum;
 import com.allumez.celpipcafe.R;
+import com.allumez.celpipcafe.UserDashBoard.Overview.FrontPageActivity;
+import com.allumez.celpipcafe.UserDashBoard.Overview.ManageAttachmentsActivity;
+import com.allumez.celpipcafe.UserDashBoard.Overview.ManageBookmarksActivity;
+import com.allumez.celpipcafe.UserDashBoard.Overview.ManageDraftsActivity;
+import com.allumez.celpipcafe.UserDashBoard.Overview.ManageNotificationsActivity;
+import com.allumez.celpipcafe.UserDashBoard.Overview.ManageSubscriptionActivity;
+import com.allumez.celpipcafe.UserDashBoard.Profile.AccountSettingsActivity;
+import com.allumez.celpipcafe.UserDashBoard.Profile.AvatarActivity;
+import com.allumez.celpipcafe.UserDashBoard.Profile.LoginKeysActivity;
+import com.allumez.celpipcafe.UserDashBoard.Profile.SignatureActivity;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-import android.view.MenuItem;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
-
-import com.google.android.material.navigation.NavigationView;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -24,20 +39,38 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.widget.ExpandableListView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class UserDashboardActivity extends AppCompatActivity {
+
     ExpandableViewAdapter listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
+    private  ListView listViewDashboardParentForumName;
+    private String API = "http://www.celpipcafe.com/api/forums.php";
+    private List<ForumParentName> celpipCafeForumParentName;
+    private TextView textViewUsername;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_dashboard_);
+        Intent intent = getIntent();
+        String Username = intent.getStringExtra("username");
+        // ---views id---
+        listViewDashboardParentForumName = findViewById(R.id.listViewDashboardParentForumName);
+        textViewUsername = findViewById(R.id.textViewUsername);
+        textViewUsername.setText("Welcome "+Username);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -49,12 +82,56 @@ public class UserDashboardActivity extends AppCompatActivity {
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView();
+        sendRequest();
+    }
+
+    private void sendRequest() {
+        final ProgressDialog loading = ProgressDialog.show(this,"Loading","Please wait...",false,false);
+        StringRequest stringRequest = new StringRequest(API,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject obj = new JSONObject(response);
+                            int abc = Integer.parseInt(obj.getString("status"));
+                            if (abc !=1 )
+                            {
+                                loading.dismiss();
+                                Toast.makeText(getApplicationContext(), "Nothing To Show!", Toast.LENGTH_SHORT).show();
+                            }
+                            else if (abc == 1)
+                            {
+                                loading.dismiss();
+                                showJSON(response);
+                                Toast.makeText(getApplicationContext(), "Welcome To Forum!", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void showJSON(String json) {
+        JsonData_Forum jsonData_forum = new JsonData_Forum(json);
+        celpipCafeForumParentName = jsonData_forum.parseJSON();
+        CelpipCafe_ForumParentName_Adapter ca = new CelpipCafe_ForumParentName_Adapter(this, celpipCafeForumParentName);
+        listViewDashboardParentForumName.setAdapter(ca);
+        ca.notifyDataSetChanged();
     }
 
     @Override
@@ -76,60 +153,81 @@ public class UserDashboardActivity extends AppCompatActivity {
 
     public void navigationView()
     {
-        // get the listview
-        expListView = (ExpandableListView) findViewById(R.id.lvExp);
+        // get the list view
+        expListView = findViewById(R.id.lvExp);
         // preparing list data
         prepareListData();
         listAdapter = new ExpandableViewAdapter(this, listDataHeader, listDataChild);
         // setting list adapter
         expListView.setAdapter(listAdapter);
-        // Listview Group click listener
+        // List view Group click listener
         expListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v,
                                         int groupPosition, long id) {
-                if(groupPosition == 0 )
-                {
-                }
-                else if(groupPosition == 1 )
-                {
-                }
-                else if(groupPosition == 2 )
-                {
-                }
-                else if(groupPosition == 3 )
-                {
-                }
-                else if(groupPosition == 4 )
-                {
-                }
-                else if(groupPosition == 5 )
-                {
-                }
-                else if(groupPosition == 6 )
-                {
-                }
-                else if(groupPosition == 7 )
-                {
-                }
-                else if(groupPosition == 8 )
-                {
-                }
+
                 return false;
             }
         });
 
         expListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-
             @Override
             public void onGroupExpand(int groupPosition) {
-
+                if (groupPosition == 0)
+                {
+                    expListView.collapseGroup(1);
+                    expListView.collapseGroup(2);
+                    expListView.collapseGroup(3);
+                    expListView.collapseGroup(4);
+                    expListView.collapseGroup(5);
+                }
+                else if (groupPosition == 1)
+                {
+                    expListView.collapseGroup(0);
+                    expListView.collapseGroup(2);
+                    expListView.collapseGroup(3);
+                    expListView.collapseGroup(4);
+                    expListView.collapseGroup(5);
+                }
+                else if (groupPosition == 2)
+                {
+                    expListView.collapseGroup(0);
+                    expListView.collapseGroup(1);
+                    expListView.collapseGroup(3);
+                    expListView.collapseGroup(4);
+                    expListView.collapseGroup(5);
+                }
+                else if (groupPosition == 3)
+                {
+                    expListView.collapseGroup(0);
+                    expListView.collapseGroup(1);
+                    expListView.collapseGroup(2);
+                    expListView.collapseGroup(4);
+                    expListView.collapseGroup(5);
+                }
+                else if (groupPosition == 4)
+                {
+                    expListView.collapseGroup(0);
+                    expListView.collapseGroup(1);
+                    expListView.collapseGroup(2);
+                    expListView.collapseGroup(3);
+                    expListView.collapseGroup(5);
+                }
+                else if (groupPosition == 5)
+                {
+                    expListView.collapseGroup(0);
+                    expListView.collapseGroup(1);
+                    expListView.collapseGroup(2);
+                    expListView.collapseGroup(3);
+                    expListView.collapseGroup(4);
+                }
             }
         });
         expListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
 
             @Override
             public void onGroupCollapse(int groupPosition) {
+
             }
         });
         expListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
@@ -137,20 +235,63 @@ public class UserDashboardActivity extends AppCompatActivity {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
-
+            if (groupPosition == 0)
+            {
                 if(childPosition == 0)
                 {
-
+                    Intent intent = new Intent(getApplicationContext(), FrontPageActivity.class);
+                    startActivity(intent);
                 }
                 else if(childPosition == 1)
                 {
-
+                    Intent intent = new Intent(getApplicationContext(), ManageSubscriptionActivity.class);
+                    startActivity(intent);
                 }
                 else if(childPosition == 2)
                 {
-
+                    Intent intent = new Intent(getApplicationContext(), ManageBookmarksActivity.class);
+                    startActivity(intent);
                 }
-                // TODO Auto-generated method stub
+                else if(childPosition == 3)
+                {
+                    Intent intent = new Intent(getApplicationContext(), ManageDraftsActivity.class);
+                    startActivity(intent);
+                }
+                else if(childPosition == 4)
+                {
+                    Intent intent = new Intent(getApplicationContext(), ManageAttachmentsActivity.class);
+                    startActivity(intent);
+                }
+                else if(childPosition == 5)
+                {
+                    Intent intent = new Intent(getApplicationContext(), ManageNotificationsActivity.class);
+                    startActivity(intent);
+                }
+            }
+            else if (groupPosition == 1)
+            {
+                    if(childPosition == 0)
+                    {
+                        Intent intent = new Intent(getApplicationContext(), SignatureActivity.class);
+                        startActivity(intent);
+                    }
+                    else if(childPosition == 1)
+                    {
+                        Intent intent = new Intent(getApplicationContext(), AvatarActivity.class);
+                        startActivity(intent);
+                    }
+                    else if(childPosition == 2)
+                    {
+                        Intent intent = new Intent(getApplicationContext(), AccountSettingsActivity.class);
+                        startActivity(intent);
+                    }
+                    else if(childPosition == 3)
+                    {
+                        Intent intent = new Intent(getApplicationContext(), LoginKeysActivity.class);
+                        startActivity(intent);
+                    }
+                }
+
                 return false;
             }
         });
