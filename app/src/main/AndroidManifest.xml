@@ -11,7 +11,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activities.CelpipCafe_TopicTitleActivity"></activity>
+        <activity
+            android:theme="@style/NoActionBar"
+            android:name=".Activities.CelpipCafe_TopicTitle_AnswerActivity"></activity>
+        <activity
+            android:name=".Activities.CelpipCafe_TopicTitleActivity"
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".UserDashBoard.Profile.LoginKeysActivity"
             android:label="@string/profile_manage_login_keys" />
@@ -73,8 +78,8 @@
         android:resizeable="true"
         android:smallScreens="true"
         android:xlargeScreens="true" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

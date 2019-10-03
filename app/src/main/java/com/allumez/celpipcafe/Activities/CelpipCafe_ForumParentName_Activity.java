@@ -24,9 +24,9 @@ import java.util.List;
 
 public class CelpipCafe_ForumParentName_Activity extends AppCompatActivity {
 
-    String API = "http://www.celpipcafe.com/api/forums.php";
-    List<ForumParentName> celpipCafeForumParentName;
-    ListView listViewForumParentName;
+    protected String API = "http://www.celpipcafe.com/api/forums.php";
+    protected List<ForumParentName> celpipCafeForumParentName;
+    protected ListView listViewForumParentName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +57,8 @@ public class CelpipCafe_ForumParentName_Activity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "Welcome To Forum!", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
+                           loading.dismiss();
+                            Toast.makeText(getApplicationContext(), "Error "+e.getMessage(), Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
                         }
                     }
@@ -64,10 +66,10 @@ public class CelpipCafe_ForumParentName_Activity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                      loading.dismiss();
+                      Toast.makeText(getApplicationContext(), "Error "+error.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
-
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }

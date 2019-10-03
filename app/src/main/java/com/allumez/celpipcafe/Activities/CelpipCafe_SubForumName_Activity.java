@@ -31,6 +31,7 @@ public class CelpipCafe_SubForumName_Activity extends AppCompatActivity {
     protected List<ForumParentName> celpipCafeForumParentNameGetterAndSetterClassList;
     protected String forum_id,forum_name;
     protected TextView textViewParentForumName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +66,8 @@ public class CelpipCafe_SubForumName_Activity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "Welcome To "+forum_name+"!", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
+                            loading.dismiss();
+                            Toast.makeText(getApplicationContext(), "Error  "+e.getMessage(), Toast.LENGTH_SHORT).show();
                             e.printStackTrace();
                         }
                     }
@@ -72,10 +75,10 @@ public class CelpipCafe_SubForumName_Activity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                        loading.dismiss();
+                        Toast.makeText(getApplicationContext(), "Error  "+error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }

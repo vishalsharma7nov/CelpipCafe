@@ -38,7 +38,7 @@ public class CelpipCafe_TopicTitleActivity extends AppCompatActivity {
         listViewForumTopicTitles = findViewById(R.id.listViewForumTopicTitles);
         Intent intent = getIntent();
         String forum_id = intent.getStringExtra("forum_id");
-        API = "http://celpipcafe.com/api/questions.php?f="+forum_id;
+        API = "http://celpipcafe.com/api/questions.php?forumid="+forum_id;
         sendRequest();
     }
     private void sendRequest() {
@@ -63,16 +63,18 @@ public class CelpipCafe_TopicTitleActivity extends AppCompatActivity {
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            loading.dismiss();
+                            Toast.makeText(getApplicationContext(), "Error  "+e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                        loading.dismiss();
+                        Toast.makeText(getApplicationContext(), "Error  "+error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
